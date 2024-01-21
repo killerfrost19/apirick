@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 function Paginate({pageNumber,setPageNumber}) {
   let prev=()=>{
     if(pageNumber==1) return ;
-    setPageNumber((a)=>a-1)
+    setPageNumber((a)=>a-1) ;
   }
   let next=()=>{
     setPageNumber((a)=>a+1)
