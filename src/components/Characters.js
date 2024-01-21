@@ -1,25 +1,29 @@
 import React,{useState,useEffect} from "react";
-import {Stack,Box, Typography} from '@mui/material'
+import {Stack,Box, Typography, Pagination} from '@mui/material'
 import { fetchCharacter} from '../fetchAPI'
 import CharacterCard from "./CharacterCard";
 import { Link } from "react-router-dom";
+import Paginate from "./Paginate";
 
 
 export default function Characters(){
 
     const [characters, setCharacters] = useState(null);
+    const [pageNumber, setPageNumber] =useState(10)
+    const [info,setInfo] =useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const data= await fetchCharacter(`/character`);
+          const data= await fetchCharacter(`/character?page=${pageNumber}`);
           setCharacters(data.results);
-          console.log(data.results);
+          setInfo(data.info);
+          console.log(data.info);
         } catch (error) {
           console.error("error in detail- character",error)
         }
       }
-      fetchData();},[]);
+      fetchData();},[pageNumber]);
       if(!characters) return null;
     return (
         <>
@@ -41,6 +45,7 @@ export default function Characters(){
                 )
             })}
         </Stack>
+        <Paginate info={info} pageNumber={pageNumber} setPageNumber={setPageNumber}/>
         </>
     )
 }
